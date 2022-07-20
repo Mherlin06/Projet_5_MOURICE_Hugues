@@ -4,12 +4,11 @@
 */
 
 const items = document.getElementById('items');
-const url = "http://localhost:3000/api/products/";
+const urlApi = "http://localhost:3000/api/products/";
 
 /** Call Api */
-
-const getProducts = () => {
-    fetch(url)
+const getAllProducts = () => {
+    fetch(urlApi)
         .then( response => response.json())
         .then( products => {
             for ( let product of products){
@@ -24,4 +23,4 @@ const getProducts = () => {
         })
 }
 
-getProducts();
+getAllProducts();
