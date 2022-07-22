@@ -1,4 +1,4 @@
-/** Display product informations */
+//////Display product informations /////
 
 /** Get current page url */
 const currentUrl = new URL(window.location.href);
@@ -33,3 +33,58 @@ const getProductById = () => {
 }
 
 getProductById();
+
+///// Add chosen product to localStorage /////
+
+const addToCartBtn = document.getElementById('addToCart');
+const itemQuantity = parseInt(document.getElementById('quantity').value);
+const itemColor = productColors.value;
+
+console.log(typeof itemQuantity);
+console.log(itemColor);
+
+
+/** Get elements from localStorage */
+const storedProducts = () => {
+    const storedProducts = localStorage.getItem('products');
+    (!storedProducts) ? {} : JSON.parse(storedProducts); 
+}
+
+/** Compare & add selected product to elements from localStorage */
+const addSelectedproduct = (selectedProduct) => {
+   
+    storedProducts.forEach(element => {
+        if(element.id === selectedProduct.id && element.color === selectedProduct.color){
+            element.quantity += selectedProduct.quantity;
+        }
+        else{
+            localStorage.setItem('products', JSON.stringify(selectedProduct))
+        }
+    });
+}
+
+
+/** Update localStorage with selected product */
+addToCartBtn.addEventListener('click', e => {
+
+    if (itemColor === ""){
+        alert('Veuillez selectionner une couleur')
+    }
+    else if(itemQuantity > 100){
+        alert('La quantité selectionnée ne peux dépasser 100')        
+    }
+    else if (itemQuantity > 0 && itemQuantity <= 100){
+
+        /** Create object of the selected product */
+        const selectedProduct = {
+            id : productId,
+            color: itemColor,
+            quantity: itemQuantity
+        }
+
+        addSelectedproduct(selectedProduct);
+        console.log(localStorage.getItem('products'))
+        alert('Produit(s) ajouté(s) au panier')
+    }
+})
+

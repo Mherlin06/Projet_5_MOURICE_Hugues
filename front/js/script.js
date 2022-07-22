@@ -1,7 +1,5 @@
-/** Display all products on the main page by
- * Calling the API &
- * Setting DOM Elements for each product inside 'items' element
-*/
+///// Display all products on the main page /////
+
 
 const items = document.getElementById('items');
 const urlApi = "http://localhost:3000/api/products/";
