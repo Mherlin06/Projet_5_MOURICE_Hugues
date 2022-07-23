@@ -80,10 +80,10 @@ addToCartBtn.addEventListener('click', e => {
         let storedProducts = getLocalStorageProducts();
 
         /** Find if selectedProduct is in storedProducts & add it if not*/
-        let selectedProductIsPresent = storedProducts.findIndex(item => item.productId === productId && item.itemColor === itemColor);
+        let selectedProductIsPresent = storedProducts.find(item => item.id === productId && item.color === itemColor);
 
-        if(selectedProductIsPresent >= 0){
-            storedProducts[selectedProductIsPresent].quantity += itemQuantity;
+        if(selectedProductIsPresent){
+            selectedProductIsPresent.quantity += itemQuantity;
         }
         else{
             storedProducts.push(selectedProduct)
