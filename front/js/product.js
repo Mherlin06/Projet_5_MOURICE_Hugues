@@ -37,24 +37,32 @@ getProductById();
 ///// Add chosen product to localStorage /////
 
 const addToCartBtn = document.getElementById('addToCart');
+let storedProducts = [];
 
 /** Get elements from localStorage */
-const storedProducts = () => {
-    const storedProducts = localStorage.getItem('products');
-    (!storedProducts) ? {} : JSON.parse(storedProducts); 
+const getStoredProducts = () =>{
+    storedProducts = JSON.parse(localStorage.getItem('products'));
 }
 
 /** Compare & add selected product to elements from localStorage */
 const addSelectedproduct = (selectedProduct) => {
    
-    for (let products of storedProducts){
-        if(products.id === selectedProduct.id && products.color === selectedProduct.color){
-            products.quantity += selectedProduct.quantity;
-        }
-        else{
-            localStorage.setItem('products', JSON.stringify(selectedProduct))
-        }
-    };
+    if(storedProducts === []){
+        storedProducts.add(selectedProduct)
+        localStorage.setItem('products', JSON.stringify(selectedProduct));
+        storedProducts = JSON.parse(localStorage.getItem('products'));
+    }
+    else{
+        for (let products of storedProducts){
+            if(products.id === selectedProduct.id && products.color === selectedProduct.color){
+                products.quantity += selectedProduct.quantity;
+            }
+            else{
+                localStorage.setItem('products', JSON.stringify(selectedProduct));
+                storedProducts = JSON.parse(localStorage.getItem('products'));
+            }
+        };
+    }
 }
 
 
@@ -63,18 +71,21 @@ addToCartBtn.addEventListener('click', e => {
 
     const itemQuantity = parseInt(document.getElementById('quantity').value);
     const itemColor = document.getElementById('colors').value;
-    console.log('quantité selectionnée: ' + itemQuantity)
-    console.log('couleur selectionnée : ' + itemColor)
+    console.log('quantité selectionnée: ' + itemQuantity);
+    console.log('couleur selectionnée : ' + itemColor);
+    console.log('id du produit selectionné :' + productId);
 
     if (itemColor === ""){
-        alert('Veuillez selectionner une couleur')
+        alert('Veuillez selectionner une couleur pour votre Kanap')
+    }
+    else if (itemQuantity ===0){
+        alert('Veuillez choisir une quantité de Kanap à ajouter au panier')
     }
     else if(itemQuantity > 100){
         alert('La quantité selectionnée ne peux dépasser 100')
     }
-    else if (itemQuantity > 0 && itemQuantity <= 100 && itemColor !==""){
-
-        /** Create object of the selected product */
+    else{
+        /** Create an object from the selected product */
         const selectedProduct = {
             id : productId,
             color: itemColor,
@@ -86,5 +97,5 @@ addToCartBtn.addEventListener('click', e => {
         console.log(localStorage.getItem('products'));
         alert('Produit(s) ajouté(s) au panier');
     }
-})
+});
 
