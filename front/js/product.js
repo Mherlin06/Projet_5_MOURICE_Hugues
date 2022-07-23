@@ -6,8 +6,7 @@ const currentUrl = new URL(window.location.href);
 /** Get product ID from url */
 const productId = currentUrl.searchParams.get("id");
 
-/** Call the API & add product elements to the DOM */
-
+/** Call the API & add product's infos to the DOM */
 const productUrl = "http://localhost:3000/api/products/" + productId;
 const productImg = document.querySelector('.item__img');
 const productTitle = document.getElementById('title');
@@ -38,7 +37,7 @@ getProductById();
 
 
 /** Get elements from localStorage */
-const getLocalStorageProducts = () => {
+let getLocalStorageProducts = () => {
     let storedProducts = JSON.parse(localStorage.getItem('products'));
     storedProducts == null ? storedProducts = [] : {};
     return storedProducts;
@@ -81,7 +80,10 @@ addToCartBtn.addEventListener('click', e => {
         let storedProducts = getLocalStorageProducts();
 
         /** Find if selectedProduct is in storedProducts & add it if not*/
-        if(storedProducts.find( item => item.productId === productId && item.itemColor === itemColor )){
+        let selectedProductIsPresent = storedProducts.findIndex(item => item.productId === productId && item.itemColor === itemColor);
+
+        if(selectedProductIsPresent >= 0){
+            storedProducts[selectedProductIsPresent].quantity += itemQuantity;
         }
         else{
             storedProducts.push(selectedProduct)
