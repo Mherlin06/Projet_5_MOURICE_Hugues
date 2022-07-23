@@ -37,12 +37,6 @@ getProductById();
 ///// Add chosen product to localStorage /////
 
 const addToCartBtn = document.getElementById('addToCart');
-const itemQuantity = parseInt(document.getElementById('quantity').value);
-const itemColor = productColors.value;
-
-console.log(typeof itemQuantity);
-console.log(itemColor);
-
 
 /** Get elements from localStorage */
 const storedProducts = () => {
@@ -53,27 +47,32 @@ const storedProducts = () => {
 /** Compare & add selected product to elements from localStorage */
 const addSelectedproduct = (selectedProduct) => {
    
-    storedProducts.forEach(element => {
-        if(element.id === selectedProduct.id && element.color === selectedProduct.color){
-            element.quantity += selectedProduct.quantity;
+    for (let products of storedProducts){
+        if(products.id === selectedProduct.id && products.color === selectedProduct.color){
+            products.quantity += selectedProduct.quantity;
         }
         else{
             localStorage.setItem('products', JSON.stringify(selectedProduct))
         }
-    });
+    };
 }
 
 
 /** Update localStorage with selected product */
 addToCartBtn.addEventListener('click', e => {
 
+    const itemQuantity = parseInt(document.getElementById('quantity').value);
+    const itemColor = document.getElementById('colors').value;
+    console.log('quantité selectionnée: ' + itemQuantity)
+    console.log('couleur selectionnée : ' + itemColor)
+
     if (itemColor === ""){
         alert('Veuillez selectionner une couleur')
     }
     else if(itemQuantity > 100){
-        alert('La quantité selectionnée ne peux dépasser 100')        
+        alert('La quantité selectionnée ne peux dépasser 100')
     }
-    else if (itemQuantity > 0 && itemQuantity <= 100){
+    else if (itemQuantity > 0 && itemQuantity <= 100 && itemColor !==""){
 
         /** Create object of the selected product */
         const selectedProduct = {
@@ -83,8 +82,9 @@ addToCartBtn.addEventListener('click', e => {
         }
 
         addSelectedproduct(selectedProduct);
-        console.log(localStorage.getItem('products'))
-        alert('Produit(s) ajouté(s) au panier')
+
+        console.log(localStorage.getItem('products'));
+        alert('Produit(s) ajouté(s) au panier');
     }
 })
 
