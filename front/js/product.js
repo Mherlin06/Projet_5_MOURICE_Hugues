@@ -36,49 +36,34 @@ getProductById();
 
 ///// Add chosen product to localStorage /////
 
-const addToCartBtn = document.getElementById('addToCart');
-let storedProducts = [];
 
 /** Get elements from localStorage */
-const getStoredProducts = () =>{
-    storedProducts = JSON.parse(localStorage.getItem('products'));
+const getLocalStorageProducts = () => {
+    let storedProducts = JSON.parse(localStorage.getItem('products'));
+    storedProducts == null ? storedProducts = [] : {};
+    return storedProducts;
 }
 
-/** Compare & add selected product to elements from localStorage */
-const addSelectedproduct = (selectedProduct) => {
-   
-    if(storedProducts === []){
-        storedProducts.add(selectedProduct)
-        localStorage.setItem('products', JSON.stringify(selectedProduct));
-        storedProducts = JSON.parse(localStorage.getItem('products'));
+/** add selectedProduct to localStorage */
+    const addToLocalStorage = (productToStore) =>{
+        localStorage.setItem('products', JSON.stringify(productToStore))
     }
-    else{
-        for (let products of storedProducts){
-            if(products.id === selectedProduct.id && products.color === selectedProduct.color){
-                products.quantity += selectedProduct.quantity;
-            }
-            else{
-                localStorage.setItem('products', JSON.stringify(selectedProduct));
-                storedProducts = JSON.parse(localStorage.getItem('products'));
-            }
-        };
-    }
-}
-
 
 /** Update localStorage with selected product */
+const addToCartBtn = document.getElementById('addToCart');
+
 addToCartBtn.addEventListener('click', e => {
 
     const itemQuantity = parseInt(document.getElementById('quantity').value);
     const itemColor = document.getElementById('colors').value;
-    console.log('quantité selectionnée: ' + itemQuantity);
-    console.log('couleur selectionnée : ' + itemColor);
-    console.log('id du produit selectionné :' + productId);
+    // console.log('quantité selectionnée: ' + itemQuantity);
+    // console.log('couleur selectionnée : ' + itemColor);
+    // console.log('id du produit selectionné :' + productId);
 
     if (itemColor === ""){
         alert('Veuillez selectionner une couleur pour votre Kanap')
     }
-    else if (itemQuantity ===0){
+    else if (itemQuantity === 0){
         alert('Veuillez choisir une quantité de Kanap à ajouter au panier')
     }
     else if(itemQuantity > 100){
@@ -92,9 +77,19 @@ addToCartBtn.addEventListener('click', e => {
             quantity: itemQuantity
         }
 
-        addSelectedproduct(selectedProduct);
+        /** Create an Array of every products from localStorage */
+        let storedProducts = getLocalStorageProducts();
 
-        console.log(localStorage.getItem('products'));
+        /** Find if selectedProduct is in storedProducts & add it if not*/
+        if(storedProducts.find( item => item.productId === productId && item.itemColor === itemColor )){
+        }
+        else{
+            storedProducts.push(selectedProduct)
+        }
+        console.log(storedProducts);
+        
+        addToLocalStorage(storedProducts);
+
         alert('Produit(s) ajouté(s) au panier');
     }
 });
