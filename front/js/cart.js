@@ -1,7 +1,6 @@
 /// Display informmations of selected products stored in the localStorage ///
 
 const cartItems = document.getElementById('cart__items')
-const totalPrice = document.getElementById('totalPrice')
 
 const urlApi = "http://localhost:3000/api/products/";
 
@@ -62,3 +61,21 @@ const displayTotalQuantity = () => {
     totalQuantity.textContent = newQuantity;
 }
 displayTotalQuantity();
+
+/** display totalPrice */
+const totalPrice = document.getElementById('totalPrice')
+
+const displayTotalPrice = () => {
+    let newTotalPrice = 0;
+
+    cartProducts().forEach( product => {
+        fetch(urlApi + product.id)
+        .then(response => response.json())
+        .then(data => { 
+            product.price = data.price;
+            newTotalPrice += product.quantity * product.price;
+            totalPrice.textContent = newTotalPrice;
+        })
+    });
+}
+displayTotalPrice();
