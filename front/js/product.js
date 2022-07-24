@@ -83,7 +83,7 @@ addToCartBtn.addEventListener('click', e => {
         let selectedProductIsPresent = storedProducts.find(item => item.id === productId && item.color === itemColor);
 
         if(selectedProductIsPresent){
-            selectedProductIsPresent.quantity += itemQuantity;
+            selectedProductIsPresent.quantity += itemQuantity
         }
         else{
             storedProducts.push(selectedProduct)
