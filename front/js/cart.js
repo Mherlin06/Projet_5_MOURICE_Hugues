@@ -5,11 +5,11 @@ const cartItems = document.getElementById('cart__items')
 const urlApi = "http://localhost:3000/api/products/";
 
 /** Get all products from localStorage */
-const cartProducts = () => {
+const getLocalStorageProducts = () => {
     return JSON.parse(localStorage.products)
 }
 
-/** Get cartProducts informations by calling the Api */
+/** Display Products informations by calling the Api */
 const displayCart = (basket) =>{
 
     basket.forEach(cartProduct => {
@@ -22,7 +22,7 @@ const displayCart = (basket) =>{
             cartProduct.name = data.name;
             cartProduct.altTxt = data.altTxt;
             
-            /** Display all cartProducts informations on the cart.html page */
+            /** Display all Products informations on the cart.html page */
             cartItems.innerHTML += `<article class="cart__item" data-id="${cartProduct.id}" data-color="${cartProduct.color}">
                                         <div class="cart__item__img">
                                         <img src="${cartProduct.imageUrl}" alt="${cartProduct.altTxt}">
@@ -47,7 +47,7 @@ const displayCart = (basket) =>{
         });     
     });
 }
-displayCart(cartProducts());
+displayCart(getLocalStorageProducts());
 
 /** display totalQuantity */
 const totalQuantity = document.getElementById('totalQuantity');
@@ -55,7 +55,7 @@ const totalQuantity = document.getElementById('totalQuantity');
 const displayTotalQuantity = () => {
     let newQuantity = 0;
 
-    cartProducts().forEach( product => {
+    getLocalStorageProducts().forEach( product => {
         newQuantity += product.quantity;
     });
     totalQuantity.textContent = newQuantity;
@@ -68,7 +68,7 @@ const totalPrice = document.getElementById('totalPrice')
 const displayTotalPrice = () => {
     let newTotalPrice = 0;
 
-    cartProducts().forEach( product => {
+    getLocalStorageProducts().forEach( product => {
         fetch(urlApi + product.id)
         .then(response => response.json())
         .then(data => { 
@@ -79,3 +79,27 @@ const displayTotalPrice = () => {
     });
 }
 displayTotalPrice();
+
+//// Delete products from the cart //// 
+
+const deleteItemBtn = document.querySelectorAll('.deleteItem');
+
+const deleteProduct = (element) => {
+
+    /** Get the id & the color of the product that will be deleted */
+    const productArticle = element.closest('article');
+    const articleId = productArticle.dataset.id;
+    const articleColor = productArticle.dataset.color;
+
+    /** Delete the unneeded product from the cart list */
+    const newLocalStorageProducts = getLocalStorageProducts().filter(item => {item.id !== articleId && item.color !== articleColor})
+
+    /** Store a new list of products & update the cart */
+    localStorage.products = JSON.stringify(newLocalStorageProducts);
+    displayCart(getLocalStorageProducts());
+}
+
+deleteItemBtn.forEach( btn => btn.addEventListener('click', deleteProduct(btn)))
+
+//// Change product's quantity inside the cart ////
+
