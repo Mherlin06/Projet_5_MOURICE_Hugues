@@ -44,9 +44,9 @@ let getLocalStorageProducts = () => {
 }
 
 /** add selectedProduct to localStorage */
-    const addToLocalStorage = (productToStore) =>{
-        localStorage.setItem('products', JSON.stringify(productToStore))
-    }
+const addToLocalStorage = (productToStore) =>{
+    localStorage.setItem('products', JSON.stringify(productToStore))
+}
 
 /** Update localStorage with selected product */
 const addToCartBtn = document.getElementById('addToCart');
@@ -55,9 +55,6 @@ addToCartBtn.addEventListener('click', e => {
 
     const itemQuantity = parseInt(document.getElementById('quantity').value);
     const itemColor = document.getElementById('colors').value;
-    // console.log('quantité selectionnée: ' + itemQuantity);
-    // console.log('couleur selectionnée : ' + itemColor);
-    // console.log('id du produit selectionné :' + productId);
 
     if (itemColor === ""){
         alert('Veuillez selectionner une couleur pour votre Kanap')
@@ -88,7 +85,6 @@ addToCartBtn.addEventListener('click', e => {
         else{
             storedProducts.push(selectedProduct)
         }
-        console.log(storedProducts);
         
         addToLocalStorage(storedProducts);
 

@@ -46,7 +46,7 @@ const displayCart = () =>{
                                             </div>
                                             </article>`;
 
-            /** Add eventListener onclick on every delete btns */
+            /** Add eventListener onclick on delete btns */
             let deleteItemBtn = document.getElementsByClassName('deleteItem')
 
             Object.values(deleteItemBtn).forEach( btn => btn.addEventListener('click', function(){
@@ -57,8 +57,21 @@ const displayCart = () =>{
                 const articleColor = productArticle.dataset.color;
 
                 deleteProduct(articleId, articleColor)
-            }
-            ))
+            }));
+
+            /** Add eventListener onchange on quantity input */
+            let quantityInput = document.getElementsByClassName('itemQuantity');
+
+            Object.values(quantityInput).forEach( input => input.addEventListener('change', function(){
+
+                /** Get Id, Color & quantity value of the product that will have its quantity changed */
+                const productArticle = input.closest('article');
+                const articleId = productArticle.dataset.id;
+                const articleColor = productArticle.dataset.color;
+                const articleQuantity = input.value;
+
+                changeQuantity(articleId, articleColor, articleQuantity);
+            }));
         });
     });
 }
@@ -96,12 +109,12 @@ const displayTotalPrice = () => {
 const updateCart = () => {
     updateLocalStorage();
     displayCart();
-    displayTotalPrice();
     displayTotalQuantity();
+    displayTotalPrice();
 }
 updateCart();
 
-//// Delete products from the cart //// 
+//// Delete products from the cart //// /** Bugs who need to be fixed !! same id but different color deleted !!  */
 
 const deleteProduct = (productId, productColor) => {
 
@@ -113,8 +126,28 @@ const deleteProduct = (productId, productColor) => {
     cartItems.innerHTML = ``;
 
     updateCart();
+    window.location.href='#cartAndFormContainer';
 }
-
 
 //// Change product's quantity inside the cart ////
 
+const changeQuantity = (productId, productColor, productQuantity) => {
+
+    if(productQuantity <= 0 ){
+        alert('Désolé! Vous ne pouvez pas avoir un nombre de produit négatif ou nul')
+    }
+    else if(productQuantity > 100){
+        alert('Désolé! Vous ne pouvez pas sélectionner plus de 100 fois le même produit')
+    }
+    else{
+        /** Get the product we modify from localeStorage & change its quantity*/
+        let productToModify = localStorageProducts.find(item => item.id === productId && item.color === productColor);
+        productToModify.quantity = productQuantity;
+
+        /** Store the modify localeStorage & update the page */
+        localStorage.products = JSON.stringify(localStorageProducts);
+        cartItems.innerHTML = ``;
+
+        updateCart();
+    }
+}
