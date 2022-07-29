@@ -92,3 +92,5 @@ addToCartBtn.addEventListener('click', e => {
     }
 });
 
+
+

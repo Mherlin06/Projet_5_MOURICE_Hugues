@@ -1,4 +1,4 @@
-/// Display informmations of selected products stored in the localStorage ///
+//////////// Display informmations of selected products stored in the localStorage ///////////////
 
 const urlApi = "http://localhost:3000/api/products/";
 let localStorageProducts;
@@ -114,7 +114,7 @@ const updateCart = () => {
 }
 updateCart();
 
-//// Delete products from the cart //// /** Bugs who need to be fixed !! same id but different color deleted !!  */
+///////////// Delete products from the cart /////////////////// /** Bugs who need to be fixed !! same id but different color deleted !!  */
 
 const deleteProduct = (productId, productColor) => {
 
@@ -129,7 +129,7 @@ const deleteProduct = (productId, productColor) => {
     window.location.href='#cartAndFormContainer';
 }
 
-//// Change product's quantity inside the cart ////
+//////////////// Change product's quantity inside the cart ////////////////////
 
 const changeQuantity = (productId, productColor, productQuantity) => {
 
@@ -151,3 +151,48 @@ const changeQuantity = (productId, productColor, productQuantity) => {
         updateCart();
     }
 }
+
+
+/////////////// Form Control ////////////////////
+
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const adress = document.getElementById('adress');
+const city = document.getElementById('city');
+const email = document.getElementById('email');
+
+const firstNameErrorMsg = document.getElementById('firstNameErrorMsg');
+const lastNameErrorMsg = document.getElementById('lastNameErrorMsg');
+const adressErrorMsg = document.getElementById('adressErrorMsg');
+const cityErrorMsg = document.getElementById('cityErrorMsg');
+const emailErrorMsg = document.getElementById('emailErrorMsg');
+
+let firstNameValue, lastNameValue, adressValue, cityValue, emailValue;
+
+/** First Name validation */
+firstName.addEventListener('input', e => {
+    if(e.target.value.length == 0){
+        firstNameValue = null;
+        firstNameErrorMsg.textContent ='';
+    }
+    else if(e.target.value.length < 2 || e.target.value.length > 30){
+        firstNameErrorMsg.textContent = 'Veuillez renseigner un prénom comprenant entre 2 et 30 caractères';
+        firstNameValue = null;
+    }
+
+    /** firstname - only letters - between 2 & 30 characters */
+    if(e.target.value.match(/^[a-z A-Z]{2,30}$/)){
+        firstNameErrorMsg.textContent = '';
+        firstNameValue = e.target.value;
+    }
+
+    /** Handle wrong characters */
+    if(!e.target.value.match(/^[a-z A-Z]{2,30}$/) && 
+        e.target.value.length >= 2 && 
+        e.target.value.length <= 30){
+            firstNameValue = null;
+            firstNameErrorMsg.textContent = 'Le prénom ne doit pas contenir de chiffres, ni de caractères spéciaux ou d\'accents ';
+        }
+});
+
+/** Last Name validation */
