@@ -157,17 +157,17 @@ const changeQuantity = (productId, productColor, productQuantity) => {
 
 const firstName = document.getElementById('firstName');
 const lastName = document.getElementById('lastName');
-const adress = document.getElementById('adress');
+const address = document.getElementById('address');
 const city = document.getElementById('city');
 const email = document.getElementById('email');
 
 const firstNameErrorMsg = document.getElementById('firstNameErrorMsg');
 const lastNameErrorMsg = document.getElementById('lastNameErrorMsg');
-const adressErrorMsg = document.getElementById('adressErrorMsg');
+const addressErrorMsg = document.getElementById('addressErrorMsg');
 const cityErrorMsg = document.getElementById('cityErrorMsg');
 const emailErrorMsg = document.getElementById('emailErrorMsg');
 
-let firstNameValue, lastNameValue, adressValue, cityValue, emailValue;
+let firstNameValue, lastNameValue, addressValue, cityValue, emailValue;
 
 /** First Name validation */
 firstName.addEventListener('input', e => {
@@ -181,18 +181,106 @@ firstName.addEventListener('input', e => {
     }
 
     /** firstname - only letters - between 2 & 30 characters */
-    if(e.target.value.match(/^[a-z A-Z]{2,30}$/)){
+    else if(e.target.value.match(/^[a-z A-Z]{2,30}$/)){
         firstNameErrorMsg.textContent = '';
         firstNameValue = e.target.value;
     }
 
     /** Handle wrong characters */
-    if(!e.target.value.match(/^[a-z A-Z]{2,30}$/) && 
-        e.target.value.length >= 2 && 
-        e.target.value.length <= 30){
+    else{
             firstNameValue = null;
             firstNameErrorMsg.textContent = 'Le prénom ne doit pas contenir de chiffres, ni de caractères spéciaux ou d\'accents ';
         }
 });
 
 /** Last Name validation */
+lastName.addEventListener('input', e => {
+    if(e.target.value.length == 0){
+        lastNameValue = null;
+        lastNameErrorMsg.textContent ='';
+    }
+    else if(e.target.value.length < 2 || e.target.value.length > 30){
+        lastNameErrorMsg.textContent = 'Veuillez renseigner un nom comprenant entre 2 et 30 caractères';
+        lastNameValue = null;
+    }
+
+    /** lastname - only letters - between 2 & 30 characters */
+    else if(e.target.value.match(/^[a-z A-Z]{2,30}$/)){
+        lastNameErrorMsg.textContent = '';
+        lastNameValue = e.target.value;
+    }
+
+    /** Handle wrong characters */
+    else{
+            lastNameValue = null;
+            lastNameErrorMsg.textContent = 'Le nom ne doit pas contenir de chiffres, ni de caractères spéciaux ou d\'accents ';
+        }
+});
+
+/** Address validation */
+address.addEventListener('input', e => {
+    if(e.target.value.length == 0){
+        addressValue = null;
+        addressErrorMsg.textContent ='';
+    }
+    else if(e.target.value.length < 3 || e.target.value.length > 80){
+        addressErrorMsg.textContent = 'Veuillez renseigner une adresse comprenant entre 3 et 80 caractères';
+        addressValue = null;
+    }
+
+    /** adress - first street number - then only letters - between 2 & 80 characters */
+    else if(e.target.value.match(/^[0-9]{1,4} [a-z A-Z 0-9]{3,80}$/)){
+        addressErrorMsg.textContent = '';
+        addressValue = e.target.value;
+    }
+
+    /** Handle wrong characters */
+    else{
+            addressValue = null;
+            addressErrorMsg.textContent = 'Veuillez entrer une adresse valide. (N° - rue - complément) sans accent ni caractères spéciaux';
+        }
+});
+
+/** City validation */
+city.addEventListener('input', e => {
+    if(e.target.value.length == 0){
+        cityValue = null;
+        cityErrorMsg.textContent ='';
+    }
+    else if(e.target.value.length < 2 || e.target.value.length > 30){
+        cityErrorMsg.textContent = 'Veuillez renseigner une ville comprenant entre 2 et 30 caractères';
+        cityValue = null;
+    }
+
+    /** city - only letters - between 2 & 30 characters */
+    else if(e.target.value.match(/^[a-z A-Z]{2,30}$/)){
+        cityErrorMsg.textContent = '';
+        cityValue = e.target.value;
+    }
+
+    /** Handle wrong characters */
+    else{
+            cityValue = null;
+            cityErrorMsg.textContent = 'La ville ne doit pas contenir de chiffres, ni de caractères spéciaux ou d\'accents ';
+        }
+});
+
+/** Email validation */
+email.addEventListener('input', e => {
+    if(e.target.value.length == 0){
+        emailValue = null;
+        emailErrorMsg.textContent ='';
+    }
+
+    /** valid mail = word + @ + word + . + word */
+    else if (e.target.value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)){
+        emailErrorMsg.textContent ='';
+        emailValue = e.target.value;
+    }
+
+     /** Handle wrong mail */
+    else{
+        emailValue = null;
+        emailErrorMsg.textContent = 'Veuillez renseigner un email valide (ex: nom@mail.com)'
+    }
+})
