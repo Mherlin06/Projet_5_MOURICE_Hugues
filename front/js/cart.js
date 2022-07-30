@@ -153,7 +153,7 @@ const changeQuantity = (productId, productColor, productQuantity) => {
 }
 
 
-/////////////// Form Control ////////////////////
+///////////////////////// Form Control /////////////////////////////////////
 
 const firstName = document.getElementById('firstName');
 const lastName = document.getElementById('lastName');
@@ -282,5 +282,58 @@ email.addEventListener('input', e => {
     else{
         emailValue = null;
         emailErrorMsg.textContent = 'Veuillez renseigner un email valide (ex: nom@mail.com)'
+    }
+})
+
+//////////////////////////////// Post order //////////////////////////////////////
+
+
+/** set the object that will be sent to API */
+const setOrderData = () => {
+
+    if(firstNameValue && lastNameValue && addressValue && cityValue && emailValue){
+        let orderProducts = [];
+        localStorageProducts.forEach(product => orderProducts.push(product.id));
+        
+        const OrderData = {
+        contact: {
+            firstName : firstNameValue,
+            lastName : lastNameValue,
+            address : addressValue,
+            city : cityValue,
+            email : emailValue
+        },
+        products : orderProducts
+        }
+        return JSON.stringify(OrderData);
+    }
+    else {
+        alert('Veuillez vérifier les informations renseignées. Un ou plusieurs champs sont incorrectes.')
+    }
+}
+
+const order = document.getElementById('order');
+
+/** set the click listener  */
+order.addEventListener('click', e => {
+    e.preventDefault();
+
+    if(localStorageProducts){
+        setOrderData();
+
+        /** Send the order infos to the Api & link to confirmation page */
+        fetch('http://localhost:3000/api/products/order', {
+            method: 'POST',
+            headers: { 'Content-Type' : 'application/json'},
+            body: setOrderData()
+        })
+        .then(response => response.json())
+        .then(data => {
+            localStorage.clear();
+            window.location.href = './confirmation.html?id=' + data.orderId;
+        })
+    }
+    else{
+        alert('Votre panier est vide');
     }
 })
