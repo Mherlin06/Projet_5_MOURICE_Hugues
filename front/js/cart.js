@@ -312,9 +312,9 @@ const setOrderData = () => {
     }
 }
 
+/** set the click listener  */
 const order = document.getElementById('order');
 
-/** set the click listener  */
 order.addEventListener('click', e => {
     e.preventDefault();
 

@@ -51,7 +51,7 @@ const addToLocalStorage = (productToStore) =>{
 /** Update localStorage with selected product */
 const addToCartBtn = document.getElementById('addToCart');
 
-addToCartBtn.addEventListener('click', e => {
+addToCartBtn.addEventListener('click', () => {
 
     const itemQuantity = parseInt(document.getElementById('quantity').value);
     const itemColor = document.getElementById('colors').value;
