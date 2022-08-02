@@ -8,6 +8,7 @@ const cartItems = document.getElementById('cart__items');
 /** Get all products from localStorage */
 const updateLocalStorage = () =>{
     localStorageProducts = JSON.parse(localStorage.products)
+    console.log(localStorageProducts)
 }
 
 /** Display Products informations by calling the Api */
@@ -91,18 +92,24 @@ const displayTotalQuantity = () => {
 /** display totalPrice */
 const totalPrice = document.getElementById('totalPrice');
 
+
 const displayTotalPrice = () => {
     let newTotalPrice = 0;
 
-    localStorageProducts.forEach( product => {
-        fetch(urlApi + product.id)
-        .then(response => response.json())
-        .then(data => { 
-            product.price = data.price;
-            newTotalPrice += product.quantity * product.price;
-            totalPrice.textContent = newTotalPrice;
-        })
-    });
+    if(localStorageProducts.length == 0){
+        totalPrice.textContent = 0;
+    }
+    else{
+        localStorageProducts.forEach( product => {
+            fetch(urlApi + product.id)
+            .then(response => response.json())
+            .then(data => { 
+                product.price = data.price;
+                newTotalPrice += product.quantity * product.price;
+                totalPrice.textContent = newTotalPrice;
+            })
+        });
+    }
 }
 
 /** General function that initialize the cart page */
@@ -295,7 +302,7 @@ const setOrderData = () => {
         let orderProducts = [];
         localStorageProducts.forEach(product => orderProducts.push(product.id));
         
-        const OrderData = {
+        const orderData = {
         contact: {
             firstName : firstNameValue,
             lastName : lastNameValue,
@@ -305,11 +312,26 @@ const setOrderData = () => {
         },
         products : orderProducts
         }
-        return JSON.stringify(OrderData);
+
+        postOrderData(orderData)
     }
     else {
         alert('Veuillez vérifier les informations renseignées. Un ou plusieurs champs sont incorrectes.')
     }
+}
+
+/** Send the order infos to the Api & link to confirmation page */
+const postOrderData = orderData => {
+    fetch('http://localhost:3000/api/products/order', {
+        method: 'POST',
+        headers: { 'Content-Type' : 'application/json'},
+        body: orderData
+    })
+    .then(response => response.json())
+    .then(data => {
+        localStorage.clear();
+        window.location.href = './confirmation.html?id=' + data.orderId;
+    })
 }
 
 /** set the click listener  */
@@ -318,22 +340,10 @@ const order = document.getElementById('order');
 order.addEventListener('click', e => {
     e.preventDefault();
 
-    if(localStorageProducts){
-        setOrderData();
-
-        /** Send the order infos to the Api & link to confirmation page */
-        fetch('http://localhost:3000/api/products/order', {
-            method: 'POST',
-            headers: { 'Content-Type' : 'application/json'},
-            body: setOrderData()
-        })
-        .then(response => response.json())
-        .then(data => {
-            localStorage.clear();
-            window.location.href = './confirmation.html?id=' + data.orderId;
-        })
+    if(localStorageProducts.length == 0){
+        alert('Votre panier est vide');
     }
     else{
-        alert('Votre panier est vide');
+        setOrderData();
     }
 })
