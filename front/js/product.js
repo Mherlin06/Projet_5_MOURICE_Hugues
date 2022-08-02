@@ -88,7 +88,7 @@ addToCartBtn.addEventListener('click', () => {
         
         addToLocalStorage(storedProducts);
 
-        alert('Produit(s) ajouté(s) au panier');
+        document.location.href = 'cart.html';
     }
 });
 
