@@ -123,15 +123,19 @@ updateCart();
 ///////////// Delete products from the cart /////////////////// /** Bugs who need to be fixed !! same id but different color deleted !!  */
 
 const deleteProduct = (productId, productColor) => {
+    let newLocalStorageProducts = [];
 
-    /** Delete the unneeded product from the cart list */
-    let newLocalStorageProducts = localStorageProducts.filter(item => (item.id !== productId && item.color !== productColor));
-
+    if(localStorageProducts.length == 1){
+        /** if last product then clean the cart page */
+        cartItems.innerHTML = ''
+    }
+    else{
+        /** Delete the unneeded product from the cart list */
+        newLocalStorageProducts = localStorageProducts.filter(item => item.id != productId || item.color != productColor);
+    }
     
-    
-    /** Store the new list of products & update the page */
+    /** Store the new list of products & update the cart*/
     localStorage.products = JSON.stringify(newLocalStorageProducts);
-
     updateCart();
     window.location.href='#cartAndFormContainer';
 }
