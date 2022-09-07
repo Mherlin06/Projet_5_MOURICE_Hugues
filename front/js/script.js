@@ -1,8 +1,11 @@
 ///// Display all products on the main page /////
 
-
 const items = document.getElementById('items');
 const urlApi = "http://localhost:3000/api/products/";
+
+// initialize localstorage
+// let clearStorage = [];
+// localStorage.products = JSON.stringify(clearStorage);
 
 /** Call Api */
 const getAllProducts = () => {

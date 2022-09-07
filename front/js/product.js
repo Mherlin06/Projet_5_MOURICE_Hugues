@@ -33,12 +33,12 @@ const getProductById = () => {
 
 getProductById();
 
-///// Add chosen product to localStorage /////
 
+///// Add chosen product to localStorage /////
 
 /** Get elements from localStorage */
 let getLocalStorageProducts = () => {
-    let storedProducts = JSON.parse(localStorage.getItem('products'));
+    let storedProducts = JSON.parse(localStorage.products);
     storedProducts == null ? storedProducts = [] : {};
     return storedProducts;
 }

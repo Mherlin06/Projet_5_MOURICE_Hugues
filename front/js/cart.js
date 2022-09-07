@@ -1,14 +1,19 @@
 //////////// Display informmations of selected products stored in the localStorage ///////////////
 
 const urlApi = "http://localhost:3000/api/products/";
-let localStorageProducts;
+let localStorageProducts ;
+
 const cartItems = document.getElementById('cart__items');
 
 
 /** Get all products from localStorage */
 const updateLocalStorage = () =>{
-    localStorageProducts = JSON.parse(localStorage.products)
-}
+    if( typeof localStorage.products == 'undefined'){
+        let initlocalStorage = [];
+        localStorage.products = JSON.stringify(initlocalStorage);
+    } 
+    localStorageProducts = JSON.parse(localStorage.products);
+};
 
 /** Display Products informations by calling the Api */
 const displayCart = () =>{
@@ -120,7 +125,7 @@ const updateCart = () => {
 }
 updateCart();
 
-///////////// Delete products from the cart /////////////////// /** Bugs who need to be fixed !! same id but different color deleted !!  */
+///////////// Delete products from the cart ///////////////////
 
 const deleteProduct = (productId, productColor) => {
     let newLocalStorageProducts = [];
@@ -316,7 +321,7 @@ const setOrderData = () => {
         products : orderProducts
         }
 
-        postOrderData(orderData)
+        postOrderData(orderData);
     }
     else {
         alert('Veuillez vérifier les informations renseignées. Un ou plusieurs champs sont incorrectes.')
@@ -325,10 +330,13 @@ const setOrderData = () => {
 
 /** Send the order infos to the Api & link to confirmation page */
 const postOrderData = orderData => {
+    
+    let stringifyData = JSON.stringify(orderData)
+    
     fetch('http://localhost:3000/api/products/order', {
         method: 'POST',
         headers: { 'Content-Type' : 'application/json'},
-        body: orderData
+        body: stringifyData
     })
     .then(response => response.json())
     .then(data => {
