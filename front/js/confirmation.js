@@ -7,3 +7,7 @@ const urlId = actualUrl.searchParams.get('id');
 /** display the id */
 const orderId = document.getElementById('orderId');
 orderId.textContent = urlId;
+
+
+
+/// revoir les validations + concatenations + ajouter appel API sur le plan de test ///
