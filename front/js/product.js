@@ -65,8 +65,6 @@ addToCartBtn.addEventListener("click", () => {
     alert("La quantité de Kanap à ajouter au panier ne peut être nulle ou négative");
   } else if (itemQuantity > 100) {
     alert("La quantité selectionnée ne peux dépasser 100");
-  } else if (Number.isInteger(itemQuantity) == false ) {
-    alert("La quantité choisie doit être un nombre entier");
   } else {
     /** Create an object from the selected product */
     const selectedProduct = {

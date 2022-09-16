@@ -10,4 +10,4 @@ orderId.textContent = urlId;
 
 
 
-/// revoir les validations + concatenations + ajouter appel API sur le plan de test ///
+/// ajouter appel API sur le plan de test ///

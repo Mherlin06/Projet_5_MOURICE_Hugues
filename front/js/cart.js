@@ -50,13 +50,12 @@ const displayCart = () => {
                 </div>
             </article>`
         );
-
+        
         /** Add eventListener onclick on delete btns */
         let deleteItemBtn = document.getElementsByClassName("deleteItem");
 
         Object.values(deleteItemBtn).forEach((btn) =>
           btn.addEventListener("click", function () {
-
             /** Get the id & the color of the product that will be deleted */
             const productArticle = btn.closest("article");
             const articleId = productArticle.dataset.id;
@@ -70,14 +69,18 @@ const displayCart = () => {
 
         Object.values(quantityInput).forEach((input) =>
           input.addEventListener("change", function () {
-
             /** Get Id, Color & quantity value of the product that will have its quantity changed */
             const productArticle = input.closest("article");
             const articleId = productArticle.dataset.id;
             const articleColor = productArticle.dataset.color;
             const articleQuantity = input.value;
 
-            changeQuantity(articleId, articleColor, articleQuantity);
+            // Check if articleQuantity is a whole number
+            if (articleQuantity / parseInt(articleQuantity) === 1) {
+              changeQuantity(articleId, articleColor, articleQuantity);
+            } else {
+              alert("Veuillez choisir un nombre entier de kanap.");
+            }
           })
         );
       });
@@ -132,11 +135,9 @@ const deleteProduct = (productId, productColor) => {
   let newLocalStorageProducts = [];
 
   if (localStorageProducts.length == 1) {
-
     /** if last product then clean the cart page */
     cartItems.innerHTML = "";
   } else {
-
     /** Delete the unneeded product from the cart list */
     newLocalStorageProducts = localStorageProducts.filter(
       (item) => item.id != productId || item.color != productColor
@@ -200,13 +201,11 @@ firstName.addEventListener("input", (e) => {
       "Veuillez renseigner un prénom comprenant entre 2 et 30 caractères";
     firstNameValue = null;
   } else if (e.target.value.match(/^[a-z A-Z]{2,30}$/)) {
-
-  /** firstname - only letters - between 2 & 30 characters */
+    /** firstname - only letters - between 2 & 30 characters */
     firstNameErrorMsg.textContent = "";
     firstNameValue = e.target.value;
   } else {
-
-  /** Handle wrong characters */
+    /** Handle wrong characters */
     firstNameValue = null;
     firstNameErrorMsg.textContent =
       "Le prénom ne doit pas contenir de chiffres, ni de caractères spéciaux ou d'accents ";
@@ -223,13 +222,11 @@ lastName.addEventListener("input", (e) => {
       "Veuillez renseigner un nom comprenant entre 2 et 30 caractères";
     lastNameValue = null;
   } else if (e.target.value.match(/^[a-z A-Z]{2,30}$/)) {
-
-  /** lastname - only letters - between 2 & 30 characters */
+    /** lastname - only letters - between 2 & 30 characters */
     lastNameErrorMsg.textContent = "";
     lastNameValue = e.target.value;
   } else {
-
-  /** Handle wrong characters */
+    /** Handle wrong characters */
     lastNameValue = null;
     lastNameErrorMsg.textContent =
       "Le nom ne doit pas contenir de chiffres, ni de caractères spéciaux ou d'accents ";
@@ -246,13 +243,11 @@ address.addEventListener("input", (e) => {
       "Veuillez renseigner une adresse comprenant entre 3 et 80 caractères";
     addressValue = null;
   } else if (e.target.value.match(/^[0-9]{1,4} [a-z A-Z 0-9]{3,80}$/)) {
-
-  /** adress - first street number - then only letters - between 2 & 80 characters */
+    /** adress - first street number - then only letters - between 2 & 80 characters */
     addressErrorMsg.textContent = "";
     addressValue = e.target.value;
   } else {
-
-  /** Handle wrong characters */
+    /** Handle wrong characters */
     addressValue = null;
     addressErrorMsg.textContent =
       "Veuillez entrer une adresse valide. (N° - rue - complément) sans accent ni caractères spéciaux";
@@ -269,13 +264,11 @@ city.addEventListener("input", (e) => {
       "Veuillez renseigner une ville comprenant entre 2 et 30 caractères";
     cityValue = null;
   } else if (e.target.value.match(/^[a-z A-Z]{2,30}$/)) {
-
-  /** city - only letters - between 2 & 30 characters */
+    /** city - only letters - between 2 & 30 characters */
     cityErrorMsg.textContent = "";
     cityValue = e.target.value;
   } else {
-
-  /** Handle wrong characters */
+    /** Handle wrong characters */
     cityValue = null;
     cityErrorMsg.textContent =
       "La ville ne doit pas contenir de chiffres, ni de caractères spéciaux ou d'accents ";
@@ -288,13 +281,11 @@ email.addEventListener("input", (e) => {
     emailValue = null;
     emailErrorMsg.textContent = "";
   } else if (e.target.value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-
-  /** valid mail = word + @ + word + . + word */
+    /** valid mail = word + @ + word + . + word */
     emailErrorMsg.textContent = "";
     emailValue = e.target.value;
   } else {
-
-  /** Handle wrong mail */
+    /** Handle wrong mail */
     emailValue = null;
     emailErrorMsg.textContent =
       "Veuillez renseigner un email valide (ex: nom@mail.com)";
