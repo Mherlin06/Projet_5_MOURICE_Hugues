@@ -200,7 +200,7 @@ firstName.addEventListener("input", (e) => {
     firstNameErrorMsg.textContent =
       "Veuillez renseigner un prénom comprenant entre 2 et 30 caractères";
     firstNameValue = null;
-  } else if (e.target.value.match(/^[a-z A-Z]{2,30}$/)) {
+  } else if (e.target.value.match(/^[a-zA-Z\ç\à\é\è\ê\ï\-\ë\s]{2,30}$/)) {
     /** firstname - only letters - between 2 & 30 characters */
     firstNameErrorMsg.textContent = "";
     firstNameValue = e.target.value;
@@ -208,7 +208,7 @@ firstName.addEventListener("input", (e) => {
     /** Handle wrong characters */
     firstNameValue = null;
     firstNameErrorMsg.textContent =
-      "Le prénom ne doit pas contenir de chiffres, ni de caractères spéciaux ou d'accents ";
+      "Le prénom ne doit pas contenir de chiffres, ni de caractères spéciaux";
   }
 });
 
@@ -221,7 +221,7 @@ lastName.addEventListener("input", (e) => {
     lastNameErrorMsg.textContent =
       "Veuillez renseigner un nom comprenant entre 2 et 30 caractères";
     lastNameValue = null;
-  } else if (e.target.value.match(/^[a-z A-Z]{2,30}$/)) {
+  } else if (e.target.value.match(/^[a-zA-Z\ç\à\é\è\ê\ï\-\ë\'\s]{2,30}$/)) {
     /** lastname - only letters - between 2 & 30 characters */
     lastNameErrorMsg.textContent = "";
     lastNameValue = e.target.value;
@@ -229,7 +229,7 @@ lastName.addEventListener("input", (e) => {
     /** Handle wrong characters */
     lastNameValue = null;
     lastNameErrorMsg.textContent =
-      "Le nom ne doit pas contenir de chiffres, ni de caractères spéciaux ou d'accents ";
+      "Le nom ne doit pas contenir de chiffres, ni de caractères spéciaux";
   }
 });
 
@@ -242,7 +242,7 @@ address.addEventListener("input", (e) => {
     addressErrorMsg.textContent =
       "Veuillez renseigner une adresse comprenant entre 3 et 80 caractères";
     addressValue = null;
-  } else if (e.target.value.match(/^[0-9]{1,4} [a-z A-Z 0-9]{3,80}$/)) {
+  } else if (e.target.value.match(/^[0-9]{1,4} [a-zA-Z\ç\à\é\è\ê\ï\-\ë\'\s]{3,80}$/)) {
     /** adress - first street number - then only letters - between 2 & 80 characters */
     addressErrorMsg.textContent = "";
     addressValue = e.target.value;
@@ -250,7 +250,7 @@ address.addEventListener("input", (e) => {
     /** Handle wrong characters */
     addressValue = null;
     addressErrorMsg.textContent =
-      "Veuillez entrer une adresse valide. (N° - rue - complément) sans accent ni caractères spéciaux";
+      "Veuillez entrer une adresse valide (N° - rue - complément) sans caractères spéciaux";
   }
 });
 
@@ -263,7 +263,7 @@ city.addEventListener("input", (e) => {
     cityErrorMsg.textContent =
       "Veuillez renseigner une ville comprenant entre 2 et 30 caractères";
     cityValue = null;
-  } else if (e.target.value.match(/^[a-z A-Z]{2,30}$/)) {
+  } else if (e.target.value.match(/^[a-zA-Z\ç\à\é\è\ê\ï\-\ë\'\s]{2,30}$/)) {
     /** city - only letters - between 2 & 30 characters */
     cityErrorMsg.textContent = "";
     cityValue = e.target.value;
@@ -271,7 +271,7 @@ city.addEventListener("input", (e) => {
     /** Handle wrong characters */
     cityValue = null;
     cityErrorMsg.textContent =
-      "La ville ne doit pas contenir de chiffres, ni de caractères spéciaux ou d'accents ";
+      "La ville ne doit pas contenir de chiffres, ni de caractères spéciaux";
   }
 });
 
